@@ -1,6 +1,6 @@
 # fibercrud
 a simple todo-list with fiber http framework, and gorm for postgresql
-### to run
+### to run:
 ```
 git clone <repo url>
 cd <repo>
