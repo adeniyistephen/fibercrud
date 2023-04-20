@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -23,17 +22,23 @@ type Dbinstance struct {
 
 var DB Dbinstance
 
-func ConnectDb() {
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-	)
+func ConnectDb() *gorm.DB {
+	// dsn := fmt.Sprintf(
+	// 	"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai",
+	// 	os.Getenv("DB_HOST"),
+	// 	os.Getenv("DB_USER"),
+	// 	os.Getenv("DB_PASSWORD"),
+	// 	os.Getenv("DB_NAME"),
+	// 	os.Getenv("DB_PORT"),
+	// )
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	//================================TEST==============================
+	// to run test: docker run --name postgres_db  -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=crud -d postgres:13
+	// then run: go test ./...
+	dsn_test := "host=172.17.0.2 user=postgres password=pass dbname=crud port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	//==================================================================
+
+	db, err := gorm.Open(postgres.Open(dsn_test), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 
@@ -51,6 +56,8 @@ func ConnectDb() {
 	DB = Dbinstance{
 		Db: db,
 	}
+
+	return DB.Db
 }
 
 func CreateTask(name string, status string) (Task, error) {
