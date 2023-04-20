@@ -7,6 +7,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+
+/*
+	TODO: make the api a little bit more production friendly and you can do more on the testing as well, well done.
+*/
+
+
 func main() {
 	app := fiber.New()
 
